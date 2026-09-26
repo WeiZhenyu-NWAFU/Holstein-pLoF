@@ -1,40 +1,23 @@
-# Holstein pLoF study: core analysis scripts
+# Holstein pLoF: core processing workflow
 
-Initial code subset for *Matched multi-tissue transcriptomics and population genetics characterize putative loss-of-function variation in Holstein cattle*.
+Core commands and scripts for the study of putative loss-of-function variation in Holstein cattle. The repository is organized by analysis stage and documents the software, inputs and purpose of each step.
 
-## Contents
+| Stage | Software | Entry point | Purpose |
+|---|---|---|---|
+| 1. Variant annotation | VEP, ANNOVAR, GATK; SnpEff in annotation collection | `scripts/01_annotation/` | Annotate SNPs and indels; apply the indel-length filter |
+| 2. Genome–transcriptome matching | bcftools | `scripts/02_genome_transcriptome_matching/` | Intersect matched-individual DNA and RNA variant files |
+| 3. Allelic read counting | GATK ASEReadCounter | `scripts/03_ASE/` | Obtain reference and alternative read counts at supplied sites |
+| 4. Milk RNA processing | GATK, bcftools | `scripts/04_milk_RNA/` | Recalibrate RNA alignments, call/genotype variants, select heterozygous SNPs and count allelic reads |
+| 5. Homozygote depletion | Python, NumPy, pandas | `scripts/05_homozygote_depletion/` | Screen autosomal genotype counts against HWE expectations |
+| 6. Regional iHS | Python; normalized selscan input | `scripts/06_regional_iHS/` | Construct regional extreme-iHS fractions and empirical tail probabilities |
+| 7. Genealogical selection inference | Relate, CLUES | `scripts/07_CLUES/` | Sample branch lengths and infer locus-level selection parameters |
 
-- `server_core/ase/`: source GATK ASEReadCounter, Repeated t-test/CI and Single two-sided binomial-test scripts recovered by read-only inspection of the project's HPC directory.
-- `server_core/clues/`: source Relate branch-length sampling and CLUES inference commands.
-- `server_core/README.md`: scope, input notes and links to the source-command records.
-- `analysis/section5_rebuild_20260921/audit_recompute.py`: existing autosomal genotype-count HWE screen, BH correction, additional-Holstein evaluation and integration of precomputed regional-iHS/CLUES results.
-- `analysis/section5_rebuild_20260921/enrichment.py`: matched synonymous controls, GO/Reactome enrichment and matched sensitivity analyses.
-- `figure5/scripts/plot_figure5.R`: Figure 5 plotting from an aggregate source table, without statistical fitting.
+Sequence-based NMD annotation and annotation-list collection commands are included in [WORKFLOW.md](WORKFLOW.md).
 
-These are unchanged copies of existing project scripts. They have not been rerun as part of repository preparation. This initial release contains **code and documentation only**, no research data. It is not a complete WGS-to-manuscript workflow.
+## Use
 
-## Inputs and dependencies
+Read [WORKFLOW.md](WORKFLOW.md) for input requirements, software and command order. Configure reference resources, paths and compute resources before running the shell scripts in a separate working directory. Run computational jobs through the local HPC scheduler, not on a shared login node.
 
-See `INPUTS.md` for the original input layout. All listed analysis inputs and `figure5/source_tables/source_plot_data.tsv` must be supplied separately; none is included here. The figure input is an aggregate plotting table, not raw sequencing data.
+The repository contains the core technical workflow, not datasets, figure-generation scripts, enrichment analyses or manuscript-table assembly. Raw alignment/calling, final QTL/phASER workflows, full ASE classification and CLUES neutral calibration are not bundled. It is not a one-command reproduction of every manuscript result.
 
-The Python scripts require NumPy and pandas. The plotting R script uses grid and Cairo-capable graphics, Arial and a Windows English UTF-8 locale setting. The recovered ASE scripts use base R statistics and GATK; CLUES commands additionally require the original Relate/CLUES installation and genealogy inputs. Exact production software versions remain to be documented; version numbers have not been guessed. Local font/locale availability may require configuration.
-
-After providing the required inputs in a separate working copy, the original command order is:
-
-```sh
-python analysis/section5_rebuild_20260921/audit_recompute.py
-python analysis/section5_rebuild_20260921/enrichment.py
-Rscript figure5/scripts/plot_figure5.R
-```
-
-The Python scripts create/overwrite derived files under `analysis/section5_rebuild_20260921/tables/`; do not execute over archived results. For plotting, create `figure5/source_tables/` and supply `source_plot_data.tsv` first. Plot outputs are written under `figure5/`. The transformation from analysis output to the plotting input is not included in this subset. The R script reproduces the archived plot, not subsequent author-made typography edits.
-
-## Scope and interpretation
-
-The HWE script implements the existing genotype-count method, not a new genotype-likelihood analysis. It consumes existing iHS/CLUES results; it does not perform phasing, regional scans, genealogy inference or neutral calibration. Historical 14-site annotations are provenance fields, not a reinstated priority tier. The newly added server scripts provide a subset of the ASE and CLUES workflow, not the complete ASE classifier or CLUES calibration pipeline. Annotation, DNA–RNA matching, milk RNA calling, sequence-based NMD commands and regional-iHS construction are now summarized in `CORE_WORKFLOW.md`. QTL and remaining upstream workflows are not included.
-
-Software licensing and a permanent archived release remain subject to author approval. This repository should not yet be described as a complete reproducible pipeline or a DOI-archived release.
-
-## Compact HPC workflow guide
-
-Start with [CORE_WORKFLOW.md](CORE_WORKFLOW.md) for the main commands, software, inputs and purpose of each stage. Original added scripts are under `server_core/annotation`, `matching`, `milk` and `regional_ihs`; their hashes and sources are in `server_core/SOURCE_MANIFEST.tsv`. No additional plotting scripts or research datasets were added.
+The Python dependencies can be installed with `python -m pip install -r requirements.txt`; the regional-iHS script requires Python 3.9 or later. External bioinformatics tools and reference databases must be installed separately. Dependency versions are not pinned as a validated environment has not yet been packaged. There is no license grant or archived DOI release at present.
