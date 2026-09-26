@@ -1,1 +1,4 @@
-for i in /storage/public/home/yuwang/liuanguo/master_thesis/lof_in_574_and_533_sample/574_sample/01.vcf_split/indel/*.raw.indel.vcf.gz;do vep --cache --species bos_taurus -i $i -o `basename $i .vcf.gz`.vep_anno.vcf;done
+#!/usr/bin/env bash
+# Activate the required tools before running; see SOFTWARE.md.
+: "${PROJECT_ROOT:?Set PROJECT_ROOT; see SOFTWARE.md}"
+for i in "${PROJECT_ROOT}"/574_sample/01.vcf_split/indel/*.raw.indel.vcf.gz;do vep --cache --species bos_taurus -i $i -o `basename $i .vcf.gz`.vep_anno.vcf;done

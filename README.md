@@ -19,8 +19,18 @@ Sequence-based NMD annotation and annotation-list collection commands are includ
 
 ## Use
 
-Read [WORKFLOW.md](WORKFLOW.md) for input requirements, software and command order. Configure reference resources, paths and compute resources before running the shell scripts in a separate working directory. Run computational jobs through the local HPC scheduler, not on a shared login node.
+Read [WORKFLOW.md](WORKFLOW.md) for input requirements, software and command order. See [SOFTWARE.md](SOFTWARE.md) for software versions and configuration variables. Configure reference resources, paths and compute resources before running the shell scripts in a separate working directory. Run computational jobs through the local HPC scheduler, not on a shared login node.
 
 The repository contains the core technical workflow, not datasets, figure-generation scripts, enrichment analyses or manuscript-table assembly. Raw alignment/calling, phenotype normalization/PEER estimation, count-matrix assembly, full ASE classification and CLUES neutral calibration are not bundled. The QTL/phASER examples document the supplied milk workflows; other-tissue production commands are not inferred. It is not a one-command reproduction of every manuscript result.
 
-The Python dependencies can be installed with `python -m pip install -r requirements.txt`; the regional-iHS script requires Python 3.9 or later. External bioinformatics tools and reference databases must be installed separately. Dependency versions are not pinned as a validated environment has not yet been packaged. There is no license grant or archived DOI release at present.
+The Python dependencies can be installed with `python -m pip install -r requirements.txt`; the regional-iHS script requires Python 3.9 or later. External bioinformatics tools and reference databases must be installed separately. Dependency versions are not pinned as a validated environment has not yet been packaged. 
+
+## Citation and availability
+
+Repository: https://github.com/WeiZhenyu-NWAFU/Holstein-pLoF
+
+Use the exact commit identifier when citing this code until a versioned archive is available. Citation metadata are provided in CITATION.cff. This repository currently has no Zenodo DOI; no archived release or complete-reproduction claim is implied.
+
+## Rights
+
+No software license has yet been selected by the authors. Public access should not be interpreted as an additional license grant. Contact the repository maintainer for reuse permission; third-party programs and resources remain subject to their respective terms.

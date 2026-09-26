@@ -1,6 +1,9 @@
+#!/usr/bin/env bash
+# Activate the required tools before running; see SOFTWARE.md.
+: "${REFERENCE_FASTA:?Set REFERENCE_FASTA; see SOFTWARE.md}"
 sample=$1
 gatk ASEReadCounter \
-	--reference /storage/public/home/2022060207/01.Dairycattle/00.Genome/Bos_taurus.ARS-UCD1.2.dna_sm.toplevel.fa \
+	--reference "${REFERENCE_FASTA}" \
 	--input $sample.bam \
 	--variant sites.vcf.gz \
 	--output $sample.ASE.table \

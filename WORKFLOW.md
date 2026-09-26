@@ -1,6 +1,6 @@
 # Core commands and inputs
 
-Paths below are relative to this repository. Shell scripts retain their analysis options and require local paths/environment configuration. They are command templates for the corresponding stage, not a scheduler-managed end-to-end pipeline.
+Paths below are relative to this repository. Shell scripts retain their analysis options; configure paths and environments as described in SOFTWARE.md. User-specific server paths and environment-activation commands have been replaced with configuration variables and tools on PATH. They are command templates for the corresponding stage, not a scheduler-managed end-to-end pipeline.
 
 ## 1. Annotation and NMD
 

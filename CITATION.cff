@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "Please cite this repository at the exact commit used. This record identifies the repository maintainer; see the manuscript for study authorship."
+type: software
+title: "Holstein-pLoF: core processing workflow"
+authors:
+  - name: "WeiZhenyu-NWAFU"
+    website: "https://github.com/WeiZhenyu-NWAFU"
+repository-code: "https://github.com/WeiZhenyu-NWAFU/Holstein-pLoF"
+url: "https://github.com/WeiZhenyu-NWAFU/Holstein-pLoF"
+abstract: "Core commands for pLoF annotation, genome-transcriptome matching, ASE, milk RNA processing, QTL mapping and population-genetic screening in Holstein cattle."
+keywords:
+  - cattle
+  - loss-of-function
+  - allele-specific expression
+  - population genetics
