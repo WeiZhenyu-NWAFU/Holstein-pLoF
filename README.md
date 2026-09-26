@@ -1,19 +1,19 @@
 # Holstein pLoF: core processing workflow
 
-Core commands and scripts for the study of putative loss-of-function variation in Holstein cattle. The repository is organized by analysis stage and documents the software, inputs and purpose of each step.
+Core commands and scripts for the study of putative loss-of-function variation in Holstein cattle. The repository follows the manuscript sequence: genomic annotation, transcriptomic evidence, and population-genetic analyses. Modules are grouped by purpose rather than constituting a single execution order. It is organized by analysis stage and documents the software, inputs and purpose of each step.
 
 | Stage | Software | Entry point | Purpose |
 |---|---|---|---|
 | 1. Variant annotation | VEP, ANNOVAR, GATK; SnpEff in annotation collection | `scripts/01_annotation/` | Annotate SNPs and indels; apply the indel-length filter |
 | 2. Genome–transcriptome matching | bcftools | `scripts/02_genome_transcriptome_matching/` | Intersect matched-individual DNA and RNA variant files |
-| 3. Allelic read counting | GATK ASEReadCounter | `scripts/03_ASE/` | Obtain reference and alternative read counts at supplied sites |
+| 3. ASE: GATK | GATK ASEReadCounter | `scripts/03_ASE/GATK/` | Obtain site-level reference and alternative read counts |
+| 3. ASE: phASER | samtools, GATK, phASER | `scripts/03_ASE/phASER/` | Haplotype/gene allelic counts and cis-variant aFC |
 | 4. Milk RNA processing | GATK, bcftools | `scripts/04_milk_RNA/` | Recalibrate RNA alignments, call/genotype variants, select heterozygous SNPs and count allelic reads |
-| 5. Homozygote depletion | Python, NumPy, pandas | `scripts/05_homozygote_depletion/` | Screen autosomal genotype counts against HWE expectations |
-| 6. Regional iHS | Python; normalized selscan input | `scripts/06_regional_iHS/` | Construct regional extreme-iHS fractions and empirical tail probabilities |
-| 7. Genealogical selection inference | Relate, CLUES | `scripts/07_CLUES/` | Sample branch lengths and infer locus-level selection parameters |
-| 8. Haplotype-based ASE | samtools, GATK, phASER | `scripts/08_phASER/` | Haplotype/gene allelic counts and cis-variant aFC |
-| 9. cis-eQTL | PLINK, OmiGA, csvtk | `scripts/09_eQTL/` | Genotype conversion, cis mapping, independent signals and significant pairs |
-| 10. cis-sQTL | OmiGA, csvtk | `scripts/10_sQTL/` | Map prepared LeafCutter phenotypes with phenotype groups |
+| 5. cis-eQTL | PLINK, OmiGA, csvtk | `scripts/05_eQTL/` | Genotype conversion, cis mapping, independent signals and significant pairs |
+| 6. cis-sQTL | OmiGA, csvtk | `scripts/06_sQTL/` | Map prepared LeafCutter phenotypes with phenotype groups |
+| 7. Homozygote depletion | Python, NumPy, pandas | `scripts/07_homozygote_depletion/` | Screen autosomal genotype counts against HWE expectations |
+| 8. Regional iHS | Python; normalized selscan input | `scripts/08_regional_iHS/` | Construct regional extreme-iHS fractions and empirical tail probabilities |
+| 9. Genealogical selection inference | Relate, CLUES | `scripts/09_CLUES/` | Sample branch lengths and infer locus-level selection parameters |
 
 Sequence-based NMD annotation and annotation-list collection commands are included in [WORKFLOW.md](WORKFLOW.md).
 
