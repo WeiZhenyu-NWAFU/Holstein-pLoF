@@ -31,6 +31,10 @@ The Python scripts create/overwrite derived files under `analysis/section5_rebui
 
 ## Scope and interpretation
 
-The HWE script implements the existing genotype-count method, not a new genotype-likelihood analysis. It consumes existing iHS/CLUES results; it does not perform phasing, regional scans, genealogy inference or neutral calibration. Historical 14-site annotations are provenance fields, not a reinstated priority tier. The newly added server scripts provide a subset of the ASE and CLUES workflow, not the complete ASE classifier or CLUES calibration pipeline. Annotation, sequence-based NMD prediction, QTL and remaining upstream workflows will be documented separately as available.
+The HWE script implements the existing genotype-count method, not a new genotype-likelihood analysis. It consumes existing iHS/CLUES results; it does not perform phasing, regional scans, genealogy inference or neutral calibration. Historical 14-site annotations are provenance fields, not a reinstated priority tier. The newly added server scripts provide a subset of the ASE and CLUES workflow, not the complete ASE classifier or CLUES calibration pipeline. Annotation, DNA–RNA matching, milk RNA calling, sequence-based NMD commands and regional-iHS construction are now summarized in `CORE_WORKFLOW.md`. QTL and remaining upstream workflows are not included.
 
 Software licensing and a permanent archived release remain subject to author approval. This repository should not yet be described as a complete reproducible pipeline or a DOI-archived release.
+
+## Compact HPC workflow guide
+
+Start with [CORE_WORKFLOW.md](CORE_WORKFLOW.md) for the main commands, software, inputs and purpose of each stage. Original added scripts are under `server_core/annotation`, `matching`, `milk` and `regional_ihs`; their hashes and sources are in `server_core/SOURCE_MANIFEST.tsv`. No additional plotting scripts or research datasets were added.
