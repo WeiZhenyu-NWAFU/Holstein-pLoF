@@ -11,6 +11,9 @@ Core commands and scripts for the study of putative loss-of-function variation i
 | 5. Homozygote depletion | Python, NumPy, pandas | `scripts/05_homozygote_depletion/` | Screen autosomal genotype counts against HWE expectations |
 | 6. Regional iHS | Python; normalized selscan input | `scripts/06_regional_iHS/` | Construct regional extreme-iHS fractions and empirical tail probabilities |
 | 7. Genealogical selection inference | Relate, CLUES | `scripts/07_CLUES/` | Sample branch lengths and infer locus-level selection parameters |
+| 8. Haplotype-based ASE | samtools, GATK, phASER | `scripts/08_phASER/` | Haplotype/gene allelic counts and cis-variant aFC |
+| 9. cis-eQTL | PLINK, OmiGA, csvtk | `scripts/09_eQTL/` | Genotype conversion, cis mapping, independent signals and significant pairs |
+| 10. cis-sQTL | OmiGA, csvtk | `scripts/10_sQTL/` | Map prepared LeafCutter phenotypes with phenotype groups |
 
 Sequence-based NMD annotation and annotation-list collection commands are included in [WORKFLOW.md](WORKFLOW.md).
 
@@ -18,6 +21,6 @@ Sequence-based NMD annotation and annotation-list collection commands are includ
 
 Read [WORKFLOW.md](WORKFLOW.md) for input requirements, software and command order. Configure reference resources, paths and compute resources before running the shell scripts in a separate working directory. Run computational jobs through the local HPC scheduler, not on a shared login node.
 
-The repository contains the core technical workflow, not datasets, figure-generation scripts, enrichment analyses or manuscript-table assembly. Raw alignment/calling, final QTL/phASER workflows, full ASE classification and CLUES neutral calibration are not bundled. It is not a one-command reproduction of every manuscript result.
+The repository contains the core technical workflow, not datasets, figure-generation scripts, enrichment analyses or manuscript-table assembly. Raw alignment/calling, phenotype normalization/PEER estimation, count-matrix assembly, full ASE classification and CLUES neutral calibration are not bundled. The QTL/phASER examples document the supplied milk workflows; other-tissue production commands are not inferred. It is not a one-command reproduction of every manuscript result.
 
 The Python dependencies can be installed with `python -m pip install -r requirements.txt`; the regional-iHS script requires Python 3.9 or later. External bioinformatics tools and reference databases must be installed separately. Dependency versions are not pinned as a validated environment has not yet been packaged. There is no license grant or archived DOI release at present.

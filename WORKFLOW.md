@@ -67,3 +67,43 @@ Run `scripts/07_CLUES/02.sampleBranchLength.sh` followed by `03.clues_infer.sh` 
 ## Execution scope
 
 Script reorganization does not constitute a new analysis. No research data were processed while preparing this repository. Configure environments, reference/database releases and resource settings before execution; the scripts have not been validated end to end on an independent installation.
+
+## 8. Haplotype-based ASE (phASER)
+
+Configure `PHASER_DIR`, `SAMPLE`, `BAM`, `VCF`, `BLACKLIST`, `FEATURES` and a new `OUTDIR`, then run:
+
+```sh
+bash scripts/08_phASER/haplotype_counts.sh
+```
+
+The command retains MAPQ 255 alignments and removes alignments with WASP tags vW=2–7, adds read groups, marks duplicates, and runs phASER with paired-end mode, MAPQ 255, base quality 10, one thread, a haplotype-count blacklist and `--pass_only 0`. This last option disables a PASS-only restriction; it does not assert that every site passes quality control. `phaser_gene_ae.py` produces gene-level allelic counts. Python 2 and the compatible phASER environment are required. The source read-group constants (including RGSM 20) are preserved; phASER uses the explicit VCF `--sample` identifier.
+
+For cis-variant aFC, configure `PHASER_DIR`, `GW_BED`, `VCF`, `PAIRS`, `SAMPLE_MAP` and `OUTPUT`, then run `scripts/08_phASER/cis_allelic_fold_change.sh`. The pair-file header is `gene_id, var_id, var_contig, var_pos, var_ref, var_alt` (tab-separated); the sample-map header is `vcf_sample, bed_sample`. The GW-phased BED must be prepared and indexed beforehand. Aggregation and pair-table assembly are intentionally omitted; preserve phase eligibility and allele alignment when preparing these inputs. aFC runs with 20 threads as in the supplied command.
+
+## 9–10. Milk cis-eQTL and cis-sQTL
+
+The supplied mapping commands identify OmiGA **v1.1.3-beta.2+250831**. The eQTL genotype-conversion command uses PLINK **1.90b6.21**, `--maf 0.01`, `--chr-set 29` and `--keep-allele-order`. It is provided in `scripts/09_eQTL/prepare_genotypes.sh` with `VCF` and a new `OUTDIR` as environment variables. The sQTL source consumes prepared PLINK inputs; do not infer its upstream filters from the eQTL script alone.
+
+Use separate eQTL/sQTL working directories. Required relative inputs are:
+
+- `milk/genotypes/milk.{bed,bim,fam}`;
+- `milk/covFile/milk.peer30.tsv`;
+- eQTL: `milk/phenotypes/milk.expression.bed.gz`;
+- sQTL: `milk/phenotypes/milk.leafcutter.sorted.bed.gz` and `milk/phenotypes/milk.leafcutter.phenotype_groups_omiga.txt`.
+
+The main invocations, using the configured absolute repository path, are:
+
+```sh
+# From the eQTL work directory
+bash "$REPO/scripts/09_eQTL/map_cis.sh" milk 30 20 results_eqtl
+bash "$REPO/scripts/09_eQTL/extract_significant_pairs.sh" milk results_eqtl 4
+# From the separate sQTL work directory
+bash "$REPO/scripts/10_sQTL/map_cis.sh" milk 30 20 results_sqtl
+bash "$REPO/scripts/10_sQTL/extract_significant_pairs.sh" milk results_sqtl 1
+```
+
+Both mapping scripts retain `--calcu-variant-threshold`, `--force-double-precision`, cis and cis_independent modes; sQTL additionally uses `--pheno-group`. The recorded invocations use 30 PEER factors and 20 mapping threads. The scripts do not explicitly set a cis-window, MAC threshold or phenotype normalization procedure; these must not be inferred from filenames or documented as explicit command options.
+
+Significant-pair extraction preserves the source filters: the final cis-summary field <=0.05, the named `pval_g1_threshold` joined by `pheno_id`, and pair-table field 7 <= joined field 8 for chromosomes 1–29. These positional filters depend on the original OmiGA output schema; check headers before use with another version. No independent phenotype-normalization, LeafCutter or PEER-estimation pipeline is included.
+
+These modules are concise, path-configurable adaptations of the supplied commands. Analysis flags are retained; automatic recursive cleanup, verbose status messages, sample-specific retry lists and summary/plotting code are omitted. New output directories are required to protect existing results. The sample-flow path inconsistency in the supplied BAM preprocessing commands is replaced by one explicit input/output chain; this packaging change has not been validated by rerunning the analyses.
